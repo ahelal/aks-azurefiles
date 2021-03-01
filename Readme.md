@@ -1,7 +1,7 @@
 # AKS and azure files
 
 ## Prerequisite 
-##
+
 ### Required tools
 
 * az cli https://docs.microsoft.com/en-us/cli/azure/
@@ -32,4 +32,3 @@ Have a `config.sh` and `azure/main.bicep`. Use `az login` and set the desired az
 # Destroy cluster
 ./aks.sh destroy
 ```
-
