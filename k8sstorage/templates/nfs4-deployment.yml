@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs4-busybox-deployment
+  labels:
+    app: nfs4-busybox
+spec:
+  replicas: {{ .Values.NFS4_REPLICAS }}
+  selector:
+    matchLabels:
+      app: nfs4-busybox
+  template:
+    metadata:
+      labels:
+        app: nfs4-busybox
+    spec:
+      containers:
+      - image: busybox
+        command:
+          - sh
+          - -ce
+          -  |
+              while true; do 
+                date > /mnt/index.html
+                hostname >> /mnt/index.html
+                upper=$(($RANDOM % 500 + 1))
+                counter=0
+                echo "updating ... sleeping for ${upper}"
+                while [ $counter -le ${upper} ]
+                do
+                  sleep 10
+                  counter=$(( $counter + 10 ))
+                  ls -l /tmp > /dev/null
+                done
+              done
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh","-c","touch /mnt/p_$HOSTNAME"]
+          preStop:
+            exec:
+              command: ["/bin/sh","-c","rm -f /mnt/p_$HOSTNAME"]
+        imagePullPolicy: IfNotPresent
+        name: busybox
+        volumeMounts:
+          - name: nfs4
+            mountPath: "/mnt"
+      volumes:
+      - name: nfs4
+        persistentVolumeClaim:
+          claimName: nfs4

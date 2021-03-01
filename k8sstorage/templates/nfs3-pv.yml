@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs3
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - nolock
+    - vers=3
+    - sec=sys
+    - proto=tcp
+  nfs:
+    server: {{ .Values.NFS3_SERVER }}
+    path: {{ .Values.NFS3_PATH }}

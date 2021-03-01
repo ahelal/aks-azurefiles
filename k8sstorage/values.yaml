@@ -1,0 +1,11 @@
+# Default values for k8sstorage.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+NFS3_REPLICAS : 2 
+NFS3_SERVER   : "sanfs3ggrwz2st34wne.blob.core.windows.net"
+NFS3_PATH     : "/sanfs3ggrwz2st34wne/main"
+
+NFS4_REPLICAS : 4 
+NFS4_SERVER: "sanfs4ggrwz2st34wne.file.core.windows.net"
+NFS4_PATH: "/sanfs4ggrwz2st34wne/main"
